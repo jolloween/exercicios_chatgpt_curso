@@ -65,6 +65,12 @@ def alterar_preco(produtos, produto):
 
 limpar_tela()
 while True:
+    print("=-" *20)
+    print(">>> PRODUTOS DISPONÍVEIS NO MERCADO <<<")
+    print("=-" *20)
+    for nome, valor in produtos.items():
+        print(f"Produto: {nome.title():<10} {'|':<5} Preço: ${valor:.2f}")
+    print("=-" *20)
     produto = input("Digite o nome do produto para adicionar ou alterar o preço: ")
     alterar_preco(produtos, produto)
     while True:
