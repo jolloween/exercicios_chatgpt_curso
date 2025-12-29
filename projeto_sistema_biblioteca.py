@@ -16,6 +16,7 @@
 
 import os
 import time
+
 def limpar_tela():
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -124,6 +125,7 @@ def emprestar_devolver_livro(livros):
 
 
     match opção:
+
         case 1:
             while True:
                 emprestar_livro = input("Digite o título do livro ou 'ENTER' para cancelar): ").strip()
@@ -151,27 +153,38 @@ def emprestar_devolver_livro(livros):
                 resp = input("\nQuer alugar outro livro? [S/N]: ").upper()
                 if resp != "S":
                     break
-            
 
         case 2:
-            devolver_livro = input("Digite o nome do livro: ")
-            if devolver_livro in livros:
-                if livros[devolver_livro]['status'] == 'emprestado':
-                    livros[devolver_livro]['status'] ='disponível'
-                    print(f"{devolver_livro} devolvido com sucesso!")
+            while True:
+                devolver_livro = input("Digite o título do livro: ")
+                
+                pesquisa = devolver_livro.lower()
+                titulo_real = None
+                
+                for titulo in livros:
+                    if pesquisa == titulo.lower():
+                        titulo_real = titulo
+                        break
+                if not titulo_real:
+                    print(f"❌  não temos este livro em nossa biblioteca")
                 else:
-                    print("O livro se encontra dísponivel")
-            else:
-                print("❌  Não temos este livro em nossa biblioteca")
-
+                    if livros[titulo_real]['status'] == 'emprestado':
+                        livros[titulo_real]['status'] ='disponível'
+                        print(f"{titulo_real} devolvido com sucesso!")
+                    else:
+                        print("⚠️  O livro já se encontra disponível")
+                    
+                    resp = input("\nQuer alugar outro livro? [S/N]: ").upper()
+                    if resp != "S":
+                        break
         case 3:
             return
-    input("\nCarregue enter para continuar...")
+    # input("\nCarregue enter para continuar...")
 
 
 def remover_livro(livros):
     while True:
-        remover_livro = input("Qual titulo deseja excluir ou 'ENTER para sair'? ").strip()
+        remover_livro = input("Qual titulo deseja excluir ou 'ENTER' para sair? ").strip()
         if remover_livro == "":
             break
         if remover_livro in livros:
@@ -184,8 +197,6 @@ def remover_livro(livros):
         if resp != 'S':
             break
         
-    # input("\nCarregue enter para continuar...")
-
 def menu():
     print("-"*36)
     print(f"{'MENU':^34}")
@@ -252,6 +263,7 @@ livros = {
     }
 }
 
+#>>>>>>>>>>>>>>>> PROGRAMA PRINCIPAL <<<<<<<<<<<<<<<<<<<
 while True:
     limpar_tela()
     menu() #menu da biblioteca
